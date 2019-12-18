@@ -53,7 +53,10 @@ def get_application_dir(appname="stoq"):
     This also creates the directory if it doesn't exist
     :returns: the application directory
     """
-    if _system == 'Linux':
+    # $HOME is not set properly inside the snap environment
+    if 'SNAP' in os.environ:
+        appdir = os.environ['SNAP_COMMON']
+    elif _system == 'Linux':
         appdir = os.path.join(os.environ['HOME'], '.' + appname)
     elif _system == 'Windows':
         appdir = os.path.join(os.environ['ALLUSERSPROFILE'], appname)
